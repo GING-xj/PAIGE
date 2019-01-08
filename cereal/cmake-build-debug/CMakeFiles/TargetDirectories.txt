@@ -1,0 +1,3 @@
+/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/CMakeFiles/cereal.dir

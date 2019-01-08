@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="cereal"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="clang"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cereal">
+				<Option output="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/cereal" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/."/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/error"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/msinttypes"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidxml"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/concepts"/>
+					<Add directory="/usr/local/Cellar/llvm/7.0.0_1/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/llvm/7.0.0_1/lib/clang/7.0.0/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 cereal"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cereal/fast">
+				<Option output="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/cereal" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/."/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/error"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/msinttypes"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidxml"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types"/>
+					<Add directory="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/concepts"/>
+					<Add directory="/usr/local/Cellar/llvm/7.0.0_1/include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/local/Cellar/llvm/7.0.0_1/lib/clang/7.0.0/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 cereal/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/access.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives/adapters.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives/binary.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives/json.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives/portable_binary.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/archives/xml.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/cereal.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details/helpers.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details/polymorphic_impl.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details/polymorphic_impl_fwd.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details/static_object.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details/traits.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/details/util.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/base64.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/allocators.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/document.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/encodedstream.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/encodings.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/error/en.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/error/error.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/filereadstream.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/filewritestream.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/fwd.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/biginteger.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/diyfp.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/dtoa.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/ieee754.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/itoa.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/meta.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/pow10.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/regex.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/stack.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/strfunc.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/strtod.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/internal/swap.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/istreamwrapper.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/memorybuffer.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/memorystream.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/msinttypes/inttypes.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/msinttypes/stdint.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/ostreamwrapper.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/pointer.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/prettywriter.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/rapidjson.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/reader.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/schema.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/stream.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/stringbuffer.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidjson/writer.h">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidxml/rapidxml.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidxml/rapidxml_iterators.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidxml/rapidxml_print.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/external/rapidxml/rapidxml_utils.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/macros.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/array.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/base_class.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/bitset.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/boost_variant.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/chrono.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/common.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/complex.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/concepts/pair_associative_container.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/deque.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/forward_list.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/functional.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/list.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/map.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/memory.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/polymorphic.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/queue.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/set.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/stack.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/string.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/tuple.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/unordered_map.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/unordered_set.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/utility.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/valarray.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/types/vector.hpp">
+			<Option target="cereal"/>
+		</Unit>
+		<Unit filename="/Users/xujun/Code/C++Lib/openMVG/src/dependencies/cereal/include/cereal/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
