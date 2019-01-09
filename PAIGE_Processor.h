@@ -77,7 +77,7 @@ namespace PAIGE
         int calHistogramsFromImages(const std::string & img_path);
 
 
-        int calHistogramsFromSfMData(const std::string & dir_to_sfm_data_string);
+        int calHistogramsFromSfMData(const std::string & matches_dir_string);
 
         //calculate PAIGE features and ground truth
         int calPAIGE_and_GT_fromJson(const std::string & json_path_string);
@@ -87,6 +87,7 @@ namespace PAIGE
     private:
         int HIST_NUMS;
         int DESC_DIM;
+        //hash Histogram_Block to id_view
         std::unordered_map<int,std::shared_ptr<Histogram_Block>> _hist_blocks;
 
 

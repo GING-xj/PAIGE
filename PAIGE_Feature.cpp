@@ -96,5 +96,20 @@ namespace PAIGE
     {
         return getDeltaX()+getDeltaY()+getDeltaO();
     }
+
+    PAIGE_DX PAIGE_Feature::getDx()
+    {
+        return dx_;
+    }
+
+    PAIGE_DY PAIGE_Feature::getDy()
+    {
+        return dy_;
+    }
+
+    PAIGE_DO PAIGE_Feature::getDo()
+    {
+        return do_;
+    }
 }
 

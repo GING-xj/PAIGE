@@ -2,13 +2,15 @@
 // Created by GING on 2019-01-04.
 //
 
+
+
+#ifndef PAIGE_PAIGE_TEST_H
+#define PAIGE_PAIGE_TEST_H
+
 #include <map>
 #include <Eigen/Dense>
 #include "openMVG/features/regions_factory.hpp"
 #include "PAIGE_Feature.h"
-
-#ifndef PAIGE_PAIGE_TEST_H
-#define PAIGE_PAIGE_TEST_H
 
 namespace PAIGE_TEST
 {

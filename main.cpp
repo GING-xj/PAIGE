@@ -38,6 +38,20 @@ using namespace std::chrono;
 
 
 int main() {
+
+    std::string dir_to="/home/xjxj/SfM_output/i23d_test/reconstruction_sequential";
+    std::string path_to=stlplus::create_filespec(dir_to,"sfm_data.json");
+    std::cout<<"path:"<<path_to<<std::endl;
+
+    if(stlplus::file_exists(path_to))
+    {
+        std::cout<<"exist\n";
+    }
+    else
+    {
+        std::cout<<"doesn't exist\n";
+    }
+
     std::unordered_map<int,std::shared_ptr<PAIGE::Histogram_Block>> blocks;
 
     int count{0};

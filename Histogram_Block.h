@@ -13,6 +13,20 @@ namespace PAIGE
 {
     class Histogram_Block {
     public:
+
+        //marginal bin in F_1
+        using INT_BIN=std::map<int, int>;
+        //marginal bin in F_x, F_y, F_o
+        using FLOAT_BIN=std::map< int,float>;
+        //histogram of F_1
+        using INT_HISTOGRAM=std::map< int,INT_BIN >;
+        //
+        using FLOAT_HISTOGRAM=std::map< int,FLOAT_BIN >;
+
+        using INT_HISTOGRAMS=std::map< int,INT_HISTOGRAM >;
+
+        using FLOAT_HISTOGRAMS=std::map< int,FLOAT_HISTOGRAM >;
+
         std::string _image_path_string;
         INT_HISTOGRAMS _int_1_hist;
         FLOAT_HISTOGRAMS _float_x_hist;

@@ -2,22 +2,27 @@
 // Created by GING on 2019-01-01.
 //
 
-#include <vector>
-#include <Eigen/Dense>
-#include "Definition.h"
+
 
 #ifndef PAIGE_PAIGE_FEATURE_H
 #define PAIGE_PAIGE_FEATURE_H
 
+#include <vector>
+#include <Eigen/Dense>
+
+
 namespace PAIGE {
+
+    using PAIGE_DX=Eigen::VectorXf;
+
+    using PAIGE_DY=Eigen::VectorXf;
+
+    using PAIGE_DO=Eigen::VectorXf;
+
     class PAIGE_Feature {
+
     public:
 
-        using PAIGE_DX=Eigen::VectorXf;
-
-        using PAIGE_DY=Eigen::VectorXf;
-
-        using PAIGE_DO=Eigen::VectorXf;
 
         PAIGE_Feature();
 

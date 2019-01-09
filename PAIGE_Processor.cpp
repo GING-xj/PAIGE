@@ -73,7 +73,7 @@ namespace PAIGE
                     y_float=y_vector[i];
                     o_float=o_vector[i];
 
-                    histogram_start_int=pow(2,r)-1;
+                    histogram_start_int=pow(2.0,r)-1;
                     stride_int=(double)normalized_desc_vec[i](dim)/pow(2.0,-r);
 
                     if(stride_int==r+1)
@@ -131,9 +131,11 @@ namespace PAIGE
                 {
                     if(in_1_hist_1[r][j][dim]!=0 && in_1_hist_2[r][j][dim]!=0)
                     {
+                        //number of features hashed into this bin
                         var_1_1=in_1_hist_1[r][j][dim];
                         var_1_2=in_1_hist_2[r][j][dim];
 
+                        //normalize x, y, z according to the number of features in this bin
                         normalized_var_x_1=in_x_hist_1[r][j][dim]/float(var_1_1);
                         normalized_var_x_2=in_x_hist_2[r][j][dim]/float(var_1_2);
                         normalized_var_y_1=in_y_hist_1[r][j][dim]/float(var_1_1);
@@ -199,14 +201,14 @@ namespace PAIGE
                         paige_feature_backward.addDx(index_of_minus_dx,weight);
                         paige_feature_backward.addDy(index_of_minus_dy,weight);
                         paige_feature_backward.addDo(index_of_minus_do,weight);
-
-                        //normalize
-                        paige_feature_forward.normalize();
-                        paige_feature_backward.normalize();
                     }
                 }
             }
         }
+
+        //normalize
+        paige_feature_forward.normalize();
+        paige_feature_backward.normalize();
     }
 
 
@@ -276,6 +278,7 @@ namespace PAIGE
 
             Histogram_Block block(image_full_path,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms);
 
+            //hash Histogram_Block to id_view
             _hist_blocks[count++]=std::make_shared<Histogram_Block>(block);
 
 //            cereal::JSONOutputArchive archive(os);
@@ -286,7 +289,7 @@ namespace PAIGE
 //            archive(cereal::make_nvp("Hist_o",float_o_histograms));
         }
 
-        std::ofstream os("data.json");
+        std::ofstream os("histograms_data.json");
         if(!os.is_open())
         {
             return EXIT_FAILURE;
@@ -302,18 +305,87 @@ namespace PAIGE
     }
 
 
-    int PAIGE_Processor::calHistogramsFromSfMData(const std::string & path_to_sfm_data_string)
+    //calculate histograms from given data
+    int PAIGE_Processor::calHistogramsFromSfMData(const std::string & matches_dir_string)
     {
 
+        std::string path_to_sfm_data_string=stlplus::create_filespec(matches_dir_string,"data.json");
+
+        if(!stlplus::file_exists(path_to_sfm_data_string))
+        {
+            std::cerr<<std::endl
+                <<"The input file "<<path_to_sfm_data_string<<" doesn't exist"<<std::endl;
+            return EXIT_FAILURE;
+        }
+
         openMVG::sfm::SfM_Data sfm_data;
-        if (!Load(sfm_data, path_to_sfm_data_string, openMVG::sfm::ESfM_Data(openMVG::sfm::VIEWS))) {
+        if (!openMVG::sfm::Load(sfm_data, path_to_sfm_data_string, openMVG::sfm::ESfM_Data(openMVG::sfm::VIEWS))) {
             std::cerr << std::endl
                       << "The input file \""<< path_to_sfm_data_string << "\" cannot be read" << std::endl;
             return EXIT_FAILURE;
         }
 
 
+        const std::string sImage_describer = stlplus::create_filespec(matches_dir_string, "image_describer", "json");
+        std::unique_ptr<openMVG::features::Regions> regions_type = openMVG::features::Init_region_type_from_file(sImage_describer);
+        if (!regions_type)
+        {
+            std::cerr << "Invalid: "
+                      << sImage_describer << " regions type file." << std::endl;
+            return EXIT_FAILURE;
+        }
 
+
+        INT_HISTOGRAMS int_1_hists;
+        FLOAT_HISTOGRAMS float_x_histograms,float_y_histograms,float_o_histograms;
+        int width{0},height{0};
+
+        for(openMVG::sfm::Views::const_iterator iter=sfm_data.GetViews().begin(); iter!=sfm_data.GetViews().end();++iter)
+        {
+            const std::string sImageName = stlplus::create_filespec(sfm_data.s_root_path, iter->second->s_Img_path);
+            const std::string basename = stlplus::basename_part(sImageName);
+            const std::string featFile = stlplus::create_filespec(matches_dir_string, basename, ".feat");
+            const std::string descFile = stlplus::create_filespec(matches_dir_string, basename, ".desc");
+
+
+            std::unique_ptr<openMVG::features::Regions> regions_ptr(regions_type->EmptyClone());
+            if (!regions_ptr->Load(featFile, descFile))
+            {
+                std::cerr << "Invalid regions files for the view: " << sImageName << std::endl;
+                return EXIT_FAILURE;
+            }
+
+            openMVG::features::SIFT_Regions * sift_region_unique_ptr= dynamic_cast<openMVG::features::SIFT_Regions *>(regions_ptr.get());
+
+            int_1_hists.clear();
+            float_x_histograms.clear();
+            float_y_histograms.clear();
+            float_o_histograms.clear();
+
+            width=iter->second->ui_width;
+            height=iter->second->ui_height;
+
+            //Calculate Histograms
+            calHistograms(sift_region_unique_ptr,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms,width,height);
+
+            Histogram_Block block(sImageName,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms);
+
+            //hash Histogram_Block to id_view
+            _hist_blocks[iter->second->id_view]=std::make_shared<Histogram_Block>(block);
+
+        }
+
+        std::ofstream os("histograms_data.json");
+        if(!os.is_open())
+        {
+            return EXIT_FAILURE;
+        }
+
+        {
+            cereal::JSONOutputArchive archive(os);
+            archive(cereal::make_nvp("Hist_Blocks",_hist_blocks));
+        }
+        os.close();
 
         return EXIT_SUCCESS;
     }
@@ -342,10 +414,17 @@ namespace PAIGE
             for(++block_iter_plus_one;block_iter_plus_one!=hist_blocks.end();++block_iter_plus_one)
             {
                 PAIGE_Feature paige_forward,paige_backward;
-                calPAIGE_Feature(block_iter->second->_int_1_hist,block_iter->second->_float_x_hist,block_iter->second->_float_y_hist,
-                        block_iter->second->_float_o_hist,block_iter_plus_one->second->_int_1_hist,block_iter_plus_one->second->_float_x_hist,
-                                 block_iter_plus_one->second->_float_y_hist,block_iter_plus_one->second->_float_o_hist,
-                                 paige_forward,paige_backward);
+                calPAIGE_Feature(
+                        block_iter->second->_int_1_hist,
+                        block_iter->second->_float_x_hist,
+                        block_iter->second->_float_y_hist,
+                        block_iter->second->_float_o_hist,
+                        block_iter_plus_one->second->_int_1_hist,
+                        block_iter_plus_one->second->_float_x_hist,
+                        block_iter_plus_one->second->_float_y_hist,
+                        block_iter_plus_one->second->_float_o_hist,
+                        paige_forward,
+                        paige_backward);
 
                 std::string filenameL,filenameR;
                 filenameL=block_iter->second->_image_path_string;
@@ -355,22 +434,25 @@ namespace PAIGE
                 std::vector<unsigned int> labels;
 
                 shark::RealVector v1(paige_forward.getSize()),v2(paige_forward.getSize());
-                PAIGE::PAIGE_Feature::PAIGE_DX dX_f=paige_forward.getDx(),dX_b=paige_backward.getDx();
-                PAIGE::PAIGE_Feature::PAIGE_DY dY_f=paige_forward.getDy(),dY_b=paige_backward.getDy();
-                PAIGE::PAIGE_Feature::PAIGE_DO dO_f=paige_forward.getDo(),dO_b=paige_backward.getDo();
+                PAIGE::PAIGE_DX dX_f=paige_forward.getDx(),dX_b=paige_backward.getDx();
+                PAIGE::PAIGE_DY dY_f=paige_forward.getDy(),dY_b=paige_backward.getDy();
+                PAIGE::PAIGE_DO dO_f=paige_forward.getDo(),dO_b=paige_backward.getDo();
 
+                //assign dX
                 for(int i=0;i<paige_forward.getDeltaX();++i)
                 {
                     v1(i)=dX_f(i);
                     v2(i)=dX_b(i);
                 }
 
+                //assign dY
                 for(int i=v1.size();i<v1.size()+paige_forward.getDeltaY();++i)
                 {
                     v1(i)=dY_f(i);
                     v2(i)=dY_b(i);
                 }
 
+                //assign dO
                 for(int i=v1.size();i<v1.size()+paige_forward.getDeltaO();++i)
                 {
                     v1(i)=dO_f(i);
