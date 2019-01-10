@@ -1,100 +1,103 @@
-
-#include "cereal/archives/json.hpp"
-#include "cereal/types/string.hpp"
-#include "cereal/types/map.hpp"
-
-#include <omp.h>
 #include <iostream>
 #include <string>
 
-#include <openMVG/types.hpp>
-
-#include "openMVG/image/image_io.hpp"
-#include "openMVG/features/sift/SIFT_Anatomy_Image_Describer.hpp"
-#include "third_party/stlplus3/filesystemSimplified/file_system.hpp"
-#include "PAIGE_test.h"
 #include "PAIGE_Feature.h"
 #include "Histogram_Block.h"
+#include "PAIGE_Processor.h"
 
-#include <Eigen/Dense>
-
-#include <shark/Data/Dataset.h>
-#include <shark/Data/Csv.h>
-
-#include <chrono>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
-#include <map>
-#include <cmath>
-#include <fstream>
-
-
-using namespace openMVG::image;
-using namespace openMVG::features;
-using namespace PAIGE_TEST;
-using namespace std::chrono;
+#include "openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp"
 
 
 
-int main() {
+int main(int argc,char **argv) {
 
-    std::string dir_to="/home/xjxj/SfM_output/i23d_test/reconstruction_sequential";
-    std::string path_to=stlplus::create_filespec(dir_to,"sfm_data.json");
-    std::cout<<"path:"<<path_to<<std::endl;
 
-    if(stlplus::file_exists(path_to))
+
+    if(argc!=2)
     {
-        std::cout<<"exist\n";
-    }
-    else
-    {
-        std::cout<<"doesn't exist\n";
+        std::cout<<"Usage "<<std::endl;
+        std::cout<<"*:~/Path/To/Program Dir/To/Images"<<std::endl;
+        return EXIT_FAILURE;
     }
 
-    std::unordered_map<int,std::shared_ptr<PAIGE::Histogram_Block>> blocks;
+    std::string image_dir_string;
+    image_dir_string=argv[1];
 
-    int count{0};
-
-    PAIGE::PAIGE_Processor::INT_HISTOGRAMS int_h1;
-    PAIGE::PAIGE_Processor::FLOAT_HISTOGRAMS float_h1_x,float_h1_y,float_h1_o;
-    int_h1[1][1][1]=1,int_h1[2][2][2]=2;
-    float_h1_x[3][3][3]=3,float_h1_y[4][4][4]=4,float_h1_o[5][5][5]=5,float_h1_o[6][6][6]=12;
-    PAIGE::Histogram_Block block1("/home/ss",int_h1,float_h1_x,float_h1_y,float_h1_o);
-
-    blocks[count++]=std::make_shared<PAIGE::Histogram_Block>(block1);
-
-    PAIGE::PAIGE_Processor::INT_HISTOGRAMS int_h2;
-    PAIGE::PAIGE_Processor::FLOAT_HISTOGRAMS float_h2_x,float_h2_y,float_h2_o;
-    int_h2[1][1][1]=2,int_h2[2][2][2]=4;
-    float_h2_x[3][3][3]=6,float_h2_y[4][4][4]=8,float_h2_o[5][5][5]=10,float_h2_o[6][6][6]=12;
-    PAIGE::Histogram_Block block2("/home/ss",int_h2,float_h2_x,float_h2_y,float_h2_o);
-
-    blocks[count++]=std::make_shared<PAIGE::Histogram_Block>(block2);
+    PAIGE::PAIGE_Processor processor;
+    processor.calHistogramsFromImages(image_dir_string);
 
 
-    PAIGE::PAIGE_Processor::INT_HISTOGRAMS int_h3;
-    PAIGE::PAIGE_Processor::FLOAT_HISTOGRAMS float_h3_x,float_h3_y,float_h3_o;
-    int_h3[1][1][1]=3,int_h3[2][2][2]=6;
-    float_h3_x[3][3][3]=9,float_h3_y[4][4][4]=12,float_h3_o[5][5][5]=15,float_h3_o[6][6][6]=18;
-    PAIGE::Histogram_Block block3("/home/ss",int_h3,float_h3_x,float_h3_y,float_h3_o);
 
-    blocks[count++]=std::make_shared<PAIGE::Histogram_Block>(block3);
+    std::string current_dir_string=stlplus::folder_current_full();
+    processor.calPAIGE_and_GT_fromJson(current_dir_string);
 
-    std::ofstream os("data.json");
-    {
-        cereal::JSONOutputArchive archive(os);
-        archive(cereal::make_nvp("Blocks",blocks));
-    }
-    os.close();
 
-    std::unordered_map<int,std::shared_ptr<PAIGE::Histogram_Block>> in_blocks;
-    std::ifstream is("data.json");
-    {
-        cereal::JSONInputArchive archive(is);
-        archive(cereal::make_nvp("Blocks",in_blocks));
-    }
-    is.close();
+
+//
+//    PAIGE::PAIGE_Processor processor;
+//    std::string img_dir_string="/home/xjxj/data/NotreDame/test";
+//    processor.calHistogramsFromImages(img_dir_string);
+//    std::string json_path_string="/home/xjxj/data/NotreDame/PAIGE_output_0/histograms_data.json";
+//    processor.calPAIGE_and_GT_fromJson(json_path_string);
+
+
+
+//    std::string dir_to="/home/xjxj/SfM_output/i23d_test/reconstruction_sequential";
+//    std::string path_to=stlplus::create_filespec(dir_to,"sfm_data.json");
+//    std::cout<<"path:"<<path_to<<std::endl;
+//
+//    if(stlplus::file_exists(path_to))
+//    {
+//        std::cout<<"exist\n";
+//    }
+//    else
+//    {
+//        std::cout<<"doesn't exist\n";
+//    }
+//
+//    std::unordered_map<int,std::shared_ptr<PAIGE::Histogram_Block>> blocks;
+//
+//    int count{0};
+//
+//    PAIGE::PAIGE_Processor::INT_HISTOGRAMS int_h1;
+//    PAIGE::PAIGE_Processor::FLOAT_HISTOGRAMS float_h1_x,float_h1_y,float_h1_o;
+//    int_h1[1][1][1]=1,int_h1[2][2][2]=2;
+//    float_h1_x[3][3][3]=3,float_h1_y[4][4][4]=4,float_h1_o[5][5][5]=5,float_h1_o[6][6][6]=12;
+//    PAIGE::Histogram_Block block1("/home/ss",int_h1,float_h1_x,float_h1_y,float_h1_o);
+//
+//    blocks[count++]=std::make_shared<PAIGE::Histogram_Block>(block1);
+//
+//    PAIGE::PAIGE_Processor::INT_HISTOGRAMS int_h2;
+//    PAIGE::PAIGE_Processor::FLOAT_HISTOGRAMS float_h2_x,float_h2_y,float_h2_o;
+//    int_h2[1][1][1]=2,int_h2[2][2][2]=4;
+//    float_h2_x[3][3][3]=6,float_h2_y[4][4][4]=8,float_h2_o[5][5][5]=10,float_h2_o[6][6][6]=12;
+//    PAIGE::Histogram_Block block2("/home/ss",int_h2,float_h2_x,float_h2_y,float_h2_o);
+//
+//    blocks[count++]=std::make_shared<PAIGE::Histogram_Block>(block2);
+//
+//
+//    PAIGE::PAIGE_Processor::INT_HISTOGRAMS int_h3;
+//    PAIGE::PAIGE_Processor::FLOAT_HISTOGRAMS float_h3_x,float_h3_y,float_h3_o;
+//    int_h3[1][1][1]=3,int_h3[2][2][2]=6;
+//    float_h3_x[3][3][3]=9,float_h3_y[4][4][4]=12,float_h3_o[5][5][5]=15,float_h3_o[6][6][6]=18;
+//    PAIGE::Histogram_Block block3("/home/ss",int_h3,float_h3_x,float_h3_y,float_h3_o);
+//
+//    blocks[count++]=std::make_shared<PAIGE::Histogram_Block>(block3);
+//
+//    std::ofstream os("data.json");
+//    {
+//        cereal::JSONOutputArchive archive(os);
+//        archive(cereal::make_nvp("Blocks",blocks));
+//    }
+//    os.close();
+//
+//    std::unordered_map<int,std::shared_ptr<PAIGE::Histogram_Block>> in_blocks;
+//    std::ifstream is("data.json");
+//    {
+//        cereal::JSONInputArchive archive(is);
+//        archive(cereal::make_nvp("Blocks",in_blocks));
+//    }
+//    is.close();
 //
 //    for(const auto it:in_blocks)
 //    {
@@ -102,19 +105,19 @@ int main() {
 //        std::cout<<"int: "<<it.second->_int_1_hist[1][1][1]<<" x: "<<it.second->_float_x_hist[3][3][3]
 //        <<" y: "<<it.second->_float_y_hist[4][4][4]<<" o: "<<it.second->_float_o_hist[5][5][5]<<std::endl;
 //    }
-
-    for(auto it=in_blocks.begin();it!=in_blocks.end();++it)
-    {
-        auto it1=it;
-        for(++it1;it1!=in_blocks.end();++it1) {
-            std::cout << it1->first << ":" << it1->second->_image_path_string << std::endl;
-            std::cout << "int: " << it1->second->_int_1_hist[1][1][1] << " x: " << it1->second->_float_x_hist[3][3][3]
-                      << " y: " << it1->second->_float_y_hist[4][4][4] << " o: " << it1->second->_float_o_hist[5][5][5]
-                      << std::endl;
-        }
-
-    }
 //
+//    for(auto it=in_blocks.begin();it!=in_blocks.end();++it)
+//    {
+//        auto it1=it;
+//        for(++it1;it1!=in_blocks.end();++it1) {
+//            std::cout << it1->first << ":" << it1->second->_image_path_string << std::endl;
+//            std::cout << "int: " << it1->second->_int_1_hist[1][1][1] << " x: " << it1->second->_float_x_hist[3][3][3]
+//                      << " y: " << it1->second->_float_y_hist[4][4][4] << " o: " << it1->second->_float_o_hist[5][5][5]
+//                      << std::endl;
+//        }
+//
+//    }
+////
 //    std::string path="/users/xujun/CLionProjects/Incremental_SfM/Images";
 //    std::vector<std::string> imgs_vector=stlplus::folder_files(path);
 //    std::sort(imgs_vector.begin(),imgs_vector.end());
@@ -149,12 +152,12 @@ int main() {
 //    inputs.push_back(v);
 //    inputs.push_back(v1);
 //    inputs.push_back(v2);
-////    inputs.push_back(v3);
+//    inputs.push_back(v3);
 //
 //    labels.push_back(0);
 //    labels.push_back(1);
 //    labels.push_back(1);
-////    labels.push_back(0);
+//    labels.push_back(0);
 //
 //    shark::ClassificationDataset data=shark::createLabeledDataFromRange(inputs,labels);
 //    shark::exportCSV(data,"data.csv",shark::FIRST_COLUMN);
@@ -225,8 +228,8 @@ int main() {
 //        for(int i=0;i<5;++i)
 //        {
 //            cereal::JSONInputArchive   archive(is);
-////            archive("Path",str);
-////            archive("Histogram",m);
+//            archive("Path",str);
+//            archive("Histogram",m);
 //            //archive(str,m);
 //            archive(cereal::make_nvp("Path",str));
 //            archive(cereal::make_nvp("Histogram",m));

@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
 
-add_executable(PAIGE main.cpp PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h PAIGE_test.cpp PAIGE_test.h Histogram_Block.h)
+add_executable(PAIGE main.cpp PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h PAIGE_test.cpp PAIGE_test.h Histogram_Block.h Histogram_Block_io.h)
 
 target_link_libraries( PAIGE
         PRIVATE

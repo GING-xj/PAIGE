@@ -11,6 +11,7 @@
 #include <shark/Data/Csv.h>
 
 #include "PAIGE_Processor.h"
+#include "Histogram_Block_io.h"
 #include "openMVG/image/image_io.hpp"
 #include "openMVG/sfm/sfm_data.hpp"
 #include "openMVG/sfm/sfm_data_io.hpp"
@@ -135,6 +136,8 @@ namespace PAIGE
                         var_1_1=in_1_hist_1[r][j][dim];
                         var_1_2=in_1_hist_2[r][j][dim];
 
+
+
                         //normalize x, y, z according to the number of features in this bin
                         normalized_var_x_1=in_x_hist_1[r][j][dim]/float(var_1_1);
                         normalized_var_x_2=in_x_hist_2[r][j][dim]/float(var_1_2);
@@ -143,12 +146,14 @@ namespace PAIGE
                         normalized_var_o_1=in_o_hist_1[r][j][dim]/float(var_1_1);
                         normalized_var_o_2=in_o_hist_2[r][j][dim]/float(var_1_2);
 
+
                         Dx=normalized_var_x_1-normalized_var_x_2;
                         Dy=normalized_var_y_1-normalized_var_y_2;
                         Do=normalized_var_o_1-normalized_var_o_2;
                         Dx_minus=-Dx;
                         Dy_minus=-Dy;
                         Do_minus=-Do;
+
 
                         Dx_shifted=Dx+1.0f;
                         Dy_shifted=Dy+1.0f;
@@ -157,6 +162,7 @@ namespace PAIGE
                         Dy_minus_shifted=Dy_minus+1.0f;
                         Do_minus_shifted=Do_minus+2.0f*pi;
 
+
                         weight=float(pow(2,r-HIST_NUMS));
                         index_of_dx=Dx_shifted/delta_x;
                         index_of_dy=Dy_shifted/delta_y;
@@ -164,6 +170,7 @@ namespace PAIGE
                         index_of_minus_dx=Dx_minus_shifted/delta_x;
                         index_of_minus_dy=Dy_minus_shifted/delta_y;
                         index_of_minus_do=Do_minus_shifted/delta_o;
+
 
                         if(index_of_dx==d_delta_x)
                         {
@@ -195,18 +202,24 @@ namespace PAIGE
                             index_of_minus_do-=1;
                         }
 
+
                         paige_feature_forward.addDx(index_of_dx,weight);
                         paige_feature_forward.addDy(index_of_dy,weight);
                         paige_feature_forward.addDo(index_of_do,weight);
                         paige_feature_backward.addDx(index_of_minus_dx,weight);
                         paige_feature_backward.addDy(index_of_minus_dy,weight);
                         paige_feature_backward.addDo(index_of_minus_do,weight);
+
                     }
                 }
             }
         }
 
-        //normalize
+
+        //Merge dx, dy, do to final PAIGE feature
+        paige_feature_forward.merge();
+        paige_feature_backward.merge();
+        //Normalize PAIGE feature
         paige_feature_forward.normalize();
         paige_feature_backward.normalize();
     }
@@ -250,6 +263,9 @@ namespace PAIGE
                 continue;
             }
 
+            std::cout<<"Current Image:"<<std::endl;
+            std::cout<<img_name<<std::endl;
+
             width=imageHeader.width;
             height=imageHeader.height;
 
@@ -260,6 +276,8 @@ namespace PAIGE
 
             std::unique_ptr<openMVG::features::Image_describer> image_desc_SIFT;
             image_desc_SIFT.reset(new openMVG::features::SIFT_Anatomy_Image_describer(openMVG::features::SIFT_Anatomy_Image_describer::Params()));
+
+            std::cout<<"Calculate SIFT features"<<std::endl;
 
             //Calculate SIFT Descriptor
             std::map<openMVG::IndexT ,std::unique_ptr<openMVG::features::Regions>> regions_perImage;
@@ -273,13 +291,32 @@ namespace PAIGE
             float_y_histograms.clear();
             float_o_histograms.clear();
 
+            std::cout<<"Calculate histograms"<<std::endl;
+
             //Calculate Histograms
             calHistograms(sift_region_unique_ptr,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms,width,height);
 
-            Histogram_Block block(image_full_path,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms);
+            Histogram_Block block(image_full_path,-1,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms);
 
-            //hash Histogram_Block to id_view
-            _hist_blocks[count++]=std::make_shared<Histogram_Block>(block);
+            std::cout<<"Saving histogram to json file"<<std::endl<<std::endl;
+
+            std::string hist_file_name_string=stlplus::create_filespec(stlplus::folder_current_full(),stlplus::basename_part(img_name),"json");
+            std::ofstream os(hist_file_name_string.c_str());
+
+            if(!os.is_open())
+            {
+                std::cerr<<"Cannot open "<<hist_file_name_string<<std::endl;
+                return EXIT_FAILURE;
+            }
+
+            {
+                cereal::JSONOutputArchive archive(os);
+                archive(cereal::make_nvp("Hist_Block",block));
+            }
+            os.close();
+
+//            hash Histogram_Block to id_view
+//            _hist_blocks[count++]=std::make_shared<Histogram_Block>(block);
 
 //            cereal::JSONOutputArchive archive(os);
 //            archive(cereal::make_nvp("Path",image_full_path));
@@ -289,17 +326,23 @@ namespace PAIGE
 //            archive(cereal::make_nvp("Hist_o",float_o_histograms));
         }
 
-        std::ofstream os("histograms_data.json");
-        if(!os.is_open())
-        {
-            return EXIT_FAILURE;
-        }
 
-        {
-            cereal::JSONOutputArchive archive(os);
-            archive(cereal::make_nvp("Hist_Blocks",_hist_blocks));
-        }
-        os.close();
+
+
+//        error will occur when use too many memory
+//        std::ofstream os("histograms_data.json");
+//        if(!os.is_open())
+//        {
+//            return EXIT_FAILURE;
+//        }
+//
+//        {
+//            cereal::JSONOutputArchive archive(os);
+//            archive(cereal::make_nvp("Hist_Blocks",_hist_blocks));
+//        }
+//        os.close();
+
+
 
         return EXIT_SUCCESS;
     }
@@ -327,6 +370,12 @@ namespace PAIGE
 
 
         const std::string sImage_describer = stlplus::create_filespec(matches_dir_string, "image_describer", "json");
+        if(!stlplus::file_exists(sImage_describer))
+        {
+            std::cerr<<sImage_describer<<" doesn't exist"<<std::endl;
+            return EXIT_FAILURE;
+        }
+
         std::unique_ptr<openMVG::features::Regions> regions_type = openMVG::features::Init_region_type_from_file(sImage_describer);
         if (!regions_type)
         {
@@ -355,6 +404,9 @@ namespace PAIGE
                 return EXIT_FAILURE;
             }
 
+            std::cout<<"Current Image:"<<std::endl;
+            std::cout<<iter->second->s_Img_path<<std::endl;
+
             openMVG::features::SIFT_Regions * sift_region_unique_ptr= dynamic_cast<openMVG::features::SIFT_Regions *>(regions_ptr.get());
 
             int_1_hists.clear();
@@ -365,102 +417,181 @@ namespace PAIGE
             width=iter->second->ui_width;
             height=iter->second->ui_height;
 
+            std::cout<<"Calculate histograms"<<std::endl;
+
             //Calculate Histograms
             calHistograms(sift_region_unique_ptr,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms,width,height);
 
-            Histogram_Block block(sImageName,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms);
+            Histogram_Block block(sImageName,iter->second->id_view,int_1_hists,float_x_histograms,float_y_histograms,float_o_histograms);
+
+            std::cout<<"Saving histogram to json file"<<std::endl;
+
+            std::string hist_file_name_string=stlplus::create_filespec(stlplus::folder_current_full(),basename,"json");
+            std::ofstream os(hist_file_name_string.c_str());
+
+            if(!os.is_open())
+            {
+                std::cerr<<"Cannot open "<<hist_file_name_string<<std::endl;
+                return EXIT_FAILURE;
+            }
+
+            {
+                cereal::JSONOutputArchive archive(os);
+                archive(cereal::make_nvp("Hist_Block",block));
+            }
+            os.close();
 
             //hash Histogram_Block to id_view
-            _hist_blocks[iter->second->id_view]=std::make_shared<Histogram_Block>(block);
+//            _hist_blocks[iter->second->id_view]=std::make_shared<Histogram_Block>(block);
 
         }
 
-        std::ofstream os("histograms_data.json");
-        if(!os.is_open())
-        {
-            return EXIT_FAILURE;
-        }
+        std::cout<<"*******"<<std::endl;
+        std::cout<<"Saving histograms to json file"<<std::endl;
+        std::cout<<"*******"<<std::endl;
 
-        {
-            cereal::JSONOutputArchive archive(os);
-            archive(cereal::make_nvp("Hist_Blocks",_hist_blocks));
-        }
-        os.close();
+        //        error will occur when use too many memory
+//        std::ofstream os("histograms_data.json");
+//        if(!os.is_open())
+//        {
+//            return EXIT_FAILURE;
+//        }
+//
+//        {
+//            cereal::JSONOutputArchive archive(os);
+//            archive(cereal::make_nvp("Hist_Blocks",_hist_blocks));
+//        }
+//        os.close();
 
         return EXIT_SUCCESS;
     }
 
     //naive implementation
-    int PAIGE_Processor::calPAIGE_and_GT_fromJson(const std::string & json_path_string)
+    int PAIGE_Processor::calPAIGE_and_GT_fromJson(const std::string & json_dir_string)
     {
-        std::unordered_map<int,std::shared_ptr<Histogram_Block>> hist_blocks;
+        std::cout<<"******"<<std::endl;
+        std::cout<<"Listing Hist Files"<<std::endl;
+        std::cout<<std::endl;
 
-        std::ifstream is(json_path_string);
-        if(!is.is_open())
+        std::vector<std::string> folder_files_vec=stlplus::folder_files(json_dir_string);
+        std::vector<std::string> hist_files_vec;
+
+        for(auto iter=folder_files_vec.begin();iter!=folder_files_vec.end();++iter)
         {
-            return EXIT_FAILURE;
+            std::string extname=stlplus::extension_part(*iter);
+            if(extname!="json")
+                continue;
+
+            hist_files_vec.push_back(*iter);
         }
 
-        {
-            cereal::JSONInputArchive archive(is);
-            archive(cereal::make_nvp("Hist_Blocks",hist_blocks));
-        }
-        is.close();
 
-
-        for(auto block_iter=hist_blocks.begin();block_iter!=hist_blocks.end();++block_iter)
+        std::string hist_fileL,hist_fileR;
+        for(auto hist_iter=hist_files_vec.begin();hist_iter!=hist_files_vec.end();++hist_iter)
         {
-            auto block_iter_plus_one=block_iter;
-            for(++block_iter_plus_one;block_iter_plus_one!=hist_blocks.end();++block_iter_plus_one)
+            auto hist_iter_plus_one=hist_iter;
+            for(++hist_iter_plus_one;hist_iter_plus_one!=hist_files_vec.end();++hist_iter_plus_one)
             {
+                hist_fileL=stlplus::create_filespec(stlplus::folder_current_full(),*hist_iter);
+                hist_fileR=stlplus::create_filespec(stlplus::folder_current_full(),*hist_iter_plus_one);
+
+                std::ifstream isL(hist_fileL);
+                if(!isL.is_open())
+                {
+                    std::cerr<<"Cannot open "<<hist_fileL<<std::endl;
+                    return EXIT_FAILURE;
+                }
+
+                std::ifstream isR(hist_fileR);
+                if(!isR.is_open())
+                {
+                    std::cerr<<"Cannot open "<<hist_fileR<<std::endl;
+                    return EXIT_FAILURE;
+                }
+
+                std::cout<<"Loading "<<*hist_iter<<std::endl;
+                Histogram_Block hist_blockL;
+                {
+                    cereal::JSONInputArchive archive(isL);
+                    archive(cereal::make_nvp("Hist_Block",hist_blockL));
+                }
+                isL.close();
+
+                std::cout<<"Loading "<<*hist_iter_plus_one<<std::endl;
+                Histogram_Block hist_blockR;
+                {
+                    cereal::JSONInputArchive archive(isR);
+                    archive(cereal::make_nvp("Hist_Block",hist_blockR));
+                }
+                isR.close();
+
+
+                std::string filenameL,filenameR;
+                filenameL=hist_blockL._image_path_string;
+                filenameR=hist_blockR._image_path_string;
+
+                std::cout<<"Current image pair:"<<std::endl;
+                std::cout<<filenameL<<std::endl;
+                std::cout<<filenameR<<std::endl<<std::endl;
+
+
+                std::cout<<"Calculating PAIGE feature"<<std::endl;
+
                 PAIGE_Feature paige_forward,paige_backward;
                 calPAIGE_Feature(
-                        block_iter->second->_int_1_hist,
-                        block_iter->second->_float_x_hist,
-                        block_iter->second->_float_y_hist,
-                        block_iter->second->_float_o_hist,
-                        block_iter_plus_one->second->_int_1_hist,
-                        block_iter_plus_one->second->_float_x_hist,
-                        block_iter_plus_one->second->_float_y_hist,
-                        block_iter_plus_one->second->_float_o_hist,
+                        hist_blockL._int_1_hist,
+                        hist_blockL._float_x_hist,
+                        hist_blockL._float_y_hist,
+                        hist_blockL._float_o_hist,
+                        hist_blockR._int_1_hist,
+                        hist_blockR._float_x_hist,
+                        hist_blockR._float_y_hist,
+                        hist_blockR._float_o_hist,
                         paige_forward,
                         paige_backward);
 
-                std::string filenameL,filenameR;
-                filenameL=block_iter->second->_image_path_string;
-                filenameR=block_iter_plus_one->second->_image_path_string;
 
                 std::vector<shark::RealVector> inputs;
                 std::vector<unsigned int> labels;
 
                 shark::RealVector v1(paige_forward.getSize()),v2(paige_forward.getSize());
-                PAIGE::PAIGE_DX dX_f=paige_forward.getDx(),dX_b=paige_backward.getDx();
-                PAIGE::PAIGE_DY dY_f=paige_forward.getDy(),dY_b=paige_backward.getDy();
-                PAIGE::PAIGE_DO dO_f=paige_forward.getDo(),dO_b=paige_backward.getDo();
+                Eigen::VectorXf final_feat_forward=paige_forward.getPAIGE(),final_feat_backward=paige_backward.getPAIGE();
 
-                //assign dX
-                for(int i=0;i<paige_forward.getDeltaX();++i)
+                for(int i=0;i<paige_forward.getSize();++i)
                 {
-                    v1(i)=dX_f(i);
-                    v2(i)=dX_b(i);
+                    v1(i)=final_feat_forward(i);
+                    v2(i)=final_feat_backward(i);
                 }
 
-                //assign dY
-                for(int i=v1.size();i<v1.size()+paige_forward.getDeltaY();++i)
-                {
-                    v1(i)=dY_f(i);
-                    v2(i)=dY_b(i);
-                }
-
-                //assign dO
-                for(int i=v1.size();i<v1.size()+paige_forward.getDeltaO();++i)
-                {
-                    v1(i)=dO_f(i);
-                    v2(i)=dO_b(i);
-                }
+//                PAIGE::PAIGE_DX dX_f=paige_forward.getDx(),dX_b=paige_backward.getDx();
+//                PAIGE::PAIGE_DY dY_f=paige_forward.getDy(),dY_b=paige_backward.getDy();
+//                PAIGE::PAIGE_DO dO_f=paige_forward.getDo(),dO_b=paige_backward.getDo();
+//
+//                //assign dX
+//                for(int i=0;i<paige_forward.getDeltaX();++i)
+//                {
+//                    v1(i)=dX_f(i);
+//                    v2(i)=dX_b(i);
+//                }
+//
+//                //assign dY
+//                for(int i=v1.size();i<v1.size()+paige_forward.getDeltaY();++i)
+//                {
+//                    v1(i)=dY_f(i);
+//                    v2(i)=dY_b(i);
+//                }
+//
+//                //assign dO
+//                for(int i=v1.size();i<v1.size()+paige_forward.getDeltaO();++i)
+//                {
+//                    v1(i)=dO_f(i);
+//                    v2(i)=dO_b(i);
+//                }
 
                 inputs.push_back(v1);
                 inputs.push_back(v2);
+
+                std::cout<<"Calculating ground truth via fundamental matrix"<<std::endl;
 
                 if(calGroundTruthLabel(filenameL,filenameR))
                 {
@@ -473,16 +604,21 @@ namespace PAIGE
                     labels.push_back(0);
                 }
 
+                std::cout<<"*******"<<std::endl;
+                std::cout<<"Appending features to CSV file"<<std::endl;
+                std::cout<<"*******"<<std::endl;
 
                 shark::ClassificationDataset data=shark::createLabeledDataFromRange(inputs,labels);
                 std::ofstream os("data.csv",std::ios::app);
                 shark::detail::exportCSV_labeled(inputs,labels,os,shark::FIRST_COLUMN,',');
+                os.close();
             }
         }
 
         return EXIT_SUCCESS;
     }
 
+    //Calculate ground truth
     bool PAIGE_Processor::calGroundTruthLabel(const std::string & imageNameL,const std::string & imageNameR)
     {
         openMVG::image::Image<unsigned char> imageL, imageR;

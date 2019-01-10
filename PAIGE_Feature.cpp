@@ -6,10 +6,9 @@
 
 namespace PAIGE
 {
+    //Normalize PAIGE feature
     void PAIGE_Feature::normalize() {
-        dx_.normalize();
-        dy_.normalize();
-        do_.normalize();
+        total_feat_.normalize();
     }
 
     PAIGE_Feature::PAIGE_Feature() : d_delta_x(50), d_delta_y(50), d_delta_o(100)
@@ -17,9 +16,33 @@ namespace PAIGE
         dx_.resize(d_delta_x);
         dy_.resize(d_delta_y);
         do_.resize(d_delta_o);
+        total_feat_.resize(d_delta_x+d_delta_y+d_delta_o);
         initialize_dx_();
         initialize_dy_();
         initialize_do_();
+        initialize_total_();
+    }
+
+    //Generate final PAIGE feature
+    void PAIGE_Feature::merge()
+    {
+        //assign dX
+        for(int i=0;i<d_delta_x;++i)
+        {
+            total_feat_(i)=dx_(i);
+        }
+
+        //assign dY
+        for(int i=0;i<d_delta_y;++i)
+        {
+            total_feat_(d_delta_x+i)=dy_(i);
+        }
+
+        //assign dO
+        for(int i=0;i<d_delta_o;++i)
+        {
+            total_feat_(d_delta_x+d_delta_y+i)=do_(i);
+        }
     }
 
     void PAIGE_Feature::addDx(int index,float value)
@@ -92,6 +115,14 @@ namespace PAIGE
         }
     }
 
+    void PAIGE_Feature::initialize_total_()
+    {
+        for(int i=0;i<d_delta_x+d_delta_y+d_delta_o;++i)
+        {
+            total_feat_(i)=0;
+        }
+    }
+
     int PAIGE_Feature::getSize()
     {
         return getDeltaX()+getDeltaY()+getDeltaO();
@@ -110,6 +141,11 @@ namespace PAIGE
     PAIGE_DO PAIGE_Feature::getDo()
     {
         return do_;
+    }
+
+    Eigen::VectorXf PAIGE_Feature::getPAIGE()
+    {
+        return total_feat_;
     }
 }
 

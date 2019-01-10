@@ -7,14 +7,13 @@
 #ifndef PAIGE_PAIGE_CALCULATOR_H
 #define PAIGE_PAIGE_CALCULATOR_H
 
+
 #include <map>
 #include <vector>
 #include <Eigen/Dense>
 #include "PAIGE_Feature.h"
 #include "openMVG/features/regions_factory.hpp"
 #include "openMVG/sfm/sfm_data.hpp"
-#include "Histogram_Block.h"
-
 
 namespace PAIGE
 {
@@ -88,7 +87,9 @@ namespace PAIGE
         int HIST_NUMS;
         int DESC_DIM;
         //hash Histogram_Block to id_view
-        std::unordered_map<int,std::shared_ptr<Histogram_Block>> _hist_blocks;
+//        std::unordered_map<int,std::shared_ptr<Histogram_Block>> _hist_blocks;
+
+
 
 
         void normalize_x(std::vector<float> & x_vec,int width)
@@ -131,7 +132,6 @@ namespace PAIGE
     };
 
 }
-
 
 
 #endif //PAIGE_PAIGE_CALCULATOR_H

@@ -38,6 +38,8 @@ namespace PAIGE {
 
         void resetDeltaO(int new_DO);
 
+        void merge();
+
         int getDeltaX();
 
         int getDeltaY();
@@ -54,6 +56,8 @@ namespace PAIGE {
 
         PAIGE_DO getDo();
 
+        Eigen::VectorXf getPAIGE();
+
     private:
         PAIGE_DX dx_;
         PAIGE_DY dy_;
@@ -62,11 +66,15 @@ namespace PAIGE {
         int d_delta_y;
         int d_delta_o;
 
+        Eigen::VectorXf total_feat_;
+
         void initialize_dx_();
 
         void initialize_dy_();
 
         void initialize_do_();
+
+        void initialize_total_();
     };
 }
 
