@@ -352,8 +352,9 @@ namespace PAIGE
     int PAIGE_Processor::calHistogramsFromSfMData(const std::string & matches_dir_string)
     {
 
-        std::string path_to_sfm_data_string=stlplus::create_filespec(matches_dir_string,"data.json");
+        std::string path_to_sfm_data_string=stlplus::create_filespec(matches_dir_string,"sfm_data.json");
 
+        //check if sfm_data file exist
         if(!stlplus::file_exists(path_to_sfm_data_string))
         {
             std::cerr<<std::endl
@@ -361,6 +362,7 @@ namespace PAIGE
             return EXIT_FAILURE;
         }
 
+        //Load sfm_data
         openMVG::sfm::SfM_Data sfm_data;
         if (!openMVG::sfm::Load(sfm_data, path_to_sfm_data_string, openMVG::sfm::ESfM_Data(openMVG::sfm::VIEWS))) {
             std::cerr << std::endl
@@ -368,7 +370,7 @@ namespace PAIGE
             return EXIT_FAILURE;
         }
 
-
+        //check if image_describe.json exist
         const std::string sImage_describer = stlplus::create_filespec(matches_dir_string, "image_describer", "json");
         if(!stlplus::file_exists(sImage_describer))
         {
@@ -397,6 +399,7 @@ namespace PAIGE
             const std::string descFile = stlplus::create_filespec(matches_dir_string, basename, ".desc");
 
 
+            //Load feature and describer from existing file
             std::unique_ptr<openMVG::features::Regions> regions_ptr(regions_type->EmptyClone());
             if (!regions_ptr->Load(featFile, descFile))
             {

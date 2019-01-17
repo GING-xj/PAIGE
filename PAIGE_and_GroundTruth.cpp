@@ -16,7 +16,7 @@ int main(int argc,char **argv) {
     if(argc!=2)
     {
         std::cout<<"Usage "<<std::endl;
-        std::cout<<"*:~/Path/To/Program Dir/To/Images"<<std::endl;
+        std::cout<<"*:~/Path/To/Program   Dir/To/Images"<<std::endl;
         return EXIT_FAILURE;
     }
 
