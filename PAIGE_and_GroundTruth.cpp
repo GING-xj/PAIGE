@@ -1,3 +1,7 @@
+//Calculate PAIGE feature with groundtruth label and
+//save them into a data.csv file
+//Use it to generate training data before training a new model
+
 #include <iostream>
 #include <string>
 
@@ -8,7 +12,6 @@
 #include "openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp"
 
 
-
 int main(int argc,char **argv) {
 
 
@@ -17,6 +20,7 @@ int main(int argc,char **argv) {
     {
         std::cout<<"Usage "<<std::endl;
         std::cout<<"*:~/Path/To/Program   Dir/To/Images"<<std::endl;
+        std::cout<<"e.g. *:~/home/PAIGE_and_GroundTruth /home/images"<<std::endl;
         return EXIT_FAILURE;
     }
 

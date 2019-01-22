@@ -410,7 +410,8 @@ namespace PAIGE
             std::cout<<"Current Image:"<<std::endl;
             std::cout<<iter->second->s_Img_path<<std::endl;
 
-            openMVG::features::SIFT_Regions * sift_region_unique_ptr= dynamic_cast<openMVG::features::SIFT_Regions *>(regions_ptr.get());
+            openMVG::features::SIFT_Regions * sift_region_unique_ptr;
+            sift_region_unique_ptr = dynamic_cast<openMVG::features::SIFT_Regions *>(regions_ptr.get());
 
             int_1_hists.clear();
             float_x_histograms.clear();

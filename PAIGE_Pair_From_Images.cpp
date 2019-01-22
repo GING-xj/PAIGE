@@ -1,6 +1,7 @@
 //
 // Created by xjxj on 19-1-16.
 //
+// Calculate possible geometry-verified image pairs with trained model
 
 #include "cereal/archives/json.hpp"
 #include "cereal/types/string.hpp"
@@ -26,6 +27,7 @@ int main(int argc,char **argv)
     {
         std::cout<<"Usage "<<std::endl;
         std::cout<<"*:~/Path/To/Program   Dir/To/Images  Path/To/Model "<<std::endl;
+        std::cout<<"e.g. :~/home/PAIGE_Pair_From_Images  /home/Images/ /home/trained.model"<<std::endl;
         return EXIT_FAILURE;
     }
 

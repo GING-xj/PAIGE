@@ -1,6 +1,9 @@
 //
 // Created by xjxj on 19-1-16.
 //
+// Calculate possible geometry-verified image pairs with trained model and sfm_data.json from Open_MVG
+
+
 
 #include "cereal/archives/json.hpp"
 #include "cereal/types/string.hpp"
@@ -11,21 +14,24 @@
 #include <string>
 #include <shark/Data/Dataset.h>
 #include <shark/Data/Csv.h>
+#include <shark/Algorithms/Trainers/RFTrainer.h>
 
 #include "PAIGE_Feature.h"
 #include "Histogram_Block.h"
 #include "PAIGE_Processor.h"
+#include "Histogram_Block_io.h"
 
-#include <shark/Algorithms/Trainers/RFTrainer.h>
 #include "openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp"
 
 
 int main(int argc,char **argv)
 {
+
     if(argc!=3)
     {
         std::cout<<"Usage "<<std::endl;
         std::cout<<"*:~/Path/To/Program   Dir/To/matches  Path/To/Model "<<std::endl;
+        std::cout<<"*:~/home/PAIGE_pair_From_SfM_data /home/Images/ /home/trained.model"<<std::endl;
         return EXIT_FAILURE;
     }
 
@@ -207,5 +213,11 @@ int main(int argc,char **argv)
 
     return EXIT_SUCCESS;
 }
+
+
+
+
+
+
 
 
