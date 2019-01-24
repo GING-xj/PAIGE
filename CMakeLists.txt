@@ -21,7 +21,7 @@ set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
 
-add_executable(PAIGE_and_GroundTruth PAIGE_and_GroundTruth.cpp PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h PAIGE_test.cpp PAIGE_test.h Histogram_Block.h Histogram_Block_io.h )
+add_executable(PAIGE_and_GroundTruth PAIGE_and_GroundTruth.cpp PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h Histogram_Block.h Histogram_Block_io.h)
 
 target_link_libraries( PAIGE_and_GroundTruth
         PRIVATE
@@ -44,7 +44,7 @@ target_link_libraries( PAIGE_and_GroundTruth
         )
 
 
-add_executable(PAIGE_Pair_From_Images PAIGE_Pair_From_Images.cpp PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h PAIGE_test.cpp PAIGE_test.h Histogram_Block.h Histogram_Block_io.h)
+add_executable(PAIGE_Pair_From_Images PAIGE_Pair_From_Images.cpp PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h Histogram_Block.h Histogram_Block_io.h)
 
 target_link_libraries( PAIGE_Pair_From_Images
         PRIVATE
@@ -66,7 +66,7 @@ target_link_libraries( PAIGE_Pair_From_Images
         OpenMVG::openMVG_system
         )
 
-add_executable(PAIGE_pair_From_SfM_data PAIGE_pair_From_SfM_data.cpp  PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h PAIGE_test.cpp PAIGE_test.h Histogram_Block.h Histogram_Block_io.h)
+add_executable(PAIGE_pair_From_SfM_data PAIGE_pair_From_SfM_data.cpp  PAIGE_Feature.cpp PAIGE_Feature.h PAIGE_Processor.cpp PAIGE_Processor.h Histogram_Block.h Histogram_Block_io.h)
 
 target_link_libraries(PAIGE_pair_From_SfM_data
         PRIVATE

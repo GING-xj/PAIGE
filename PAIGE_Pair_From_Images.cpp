@@ -33,14 +33,14 @@ int main(int argc,char **argv)
 
     std::string img_dir_string=argv[1];
     std::string folder_current_full_string=stlplus::folder_current_full();
-    std::string folder_Pair_output_string=stlplus::create_filespec(folder_current_full_string,"PAIGE_pair");
-
-    //Create folder to save PAIGE pair
-    if(!stlplus::folder_create(folder_Pair_output_string))
-    {
-        std::cout<<"Cannot Create folder PAIGE_pair"<<std::endl;
-        return EXIT_FAILURE;
-    }
+//    std::string folder_Pair_output_string=stlplus::create_filespec(folder_current_full_string,"PAIGE_pair");
+//
+//    //Create folder to save PAIGE pair
+//    if(!stlplus::folder_create(folder_Pair_output_string))
+//    {
+//        std::cout<<"Cannot Create folder PAIGE_pair"<<std::endl;
+//        return EXIT_FAILURE;
+//    }
 
     std::string model_name=argv[2];
     if(!stlplus::file_exists(model_name))
@@ -127,7 +127,7 @@ int main(int argc,char **argv)
 
             std::cout<<"Current image pair:"<<std::endl;
             std::cout<<filenameL<<std::endl;
-            std::cout<<filenameR<<std::endl<<std::endl;
+            std::cout<<filenameR<<std::endl;
 
 
             std::cout<<"Calculating PAIGE feature"<<std::endl;
@@ -145,6 +145,7 @@ int main(int argc,char **argv)
                     paige_forward,
                     paige_backward);
 
+            std::cout<<"Filtering PAIGE feature\n"<<std::endl;
 
             //Classify PAIGE feature
             shark::RealVector v1(paige_forward.getSize()),v2(paige_forward.getSize());

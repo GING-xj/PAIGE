@@ -7,7 +7,8 @@
 
 
 #include "Histogram_Block.h"
-#include "cereal/types/polymorphic.hpp"
+//#include "cereal/types/polymorphic.hpp"
+#include "cereal/types/map.hpp"
 
 /**
 * Serialization out

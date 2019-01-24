@@ -15,12 +15,14 @@
 #include "openMVG/image/image_io.hpp"
 #include "openMVG/sfm/sfm_data.hpp"
 #include "openMVG/sfm/sfm_data_io.hpp"
+#include "openMVG/sfm/pipelines/sfm_regions_provider.hpp"
 #include "openMVG/matching/regions_matcher.hpp"
 #include "openMVG/multiview/solver_fundamental_kernel.hpp"
 #include "openMVG/features/sift/SIFT_Anatomy_Image_Describer.hpp"
 #include "openMVG/robust_estimation/robust_estimator_ACRansac.hpp"
 #include "openMVG/robust_estimation/robust_estimator_ACRansacKernelAdaptator.hpp"
 #include "third_party/stlplus3/filesystemSimplified/file_system.hpp"
+
 
 
 
@@ -354,6 +356,8 @@ namespace PAIGE
 
         std::string path_to_sfm_data_string=stlplus::create_filespec(matches_dir_string,"sfm_data.json");
 
+        std::cout<<"Checking sfm_data.json"<<std::endl;
+
         //check if sfm_data file exist
         if(!stlplus::file_exists(path_to_sfm_data_string))
         {
@@ -361,6 +365,8 @@ namespace PAIGE
                 <<"The input file "<<path_to_sfm_data_string<<" doesn't exist"<<std::endl;
             return EXIT_FAILURE;
         }
+
+        std::cout<<"Loading sfm_data.json"<<std::endl;
 
         //Load sfm_data
         openMVG::sfm::SfM_Data sfm_data;
@@ -370,6 +376,8 @@ namespace PAIGE
             return EXIT_FAILURE;
         }
 
+        std::cout<<"Checking image_describer.json"<<std::endl;
+
         //check if image_describe.json exist
         const std::string sImage_describer = stlplus::create_filespec(matches_dir_string, "image_describer", "json");
         if(!stlplus::file_exists(sImage_describer))
@@ -377,6 +385,8 @@ namespace PAIGE
             std::cerr<<sImage_describer<<" doesn't exist"<<std::endl;
             return EXIT_FAILURE;
         }
+
+        std::cout<<"Loading image_describer.json"<<std::endl;
 
         std::unique_ptr<openMVG::features::Regions> regions_type = openMVG::features::Init_region_type_from_file(sImage_describer);
         if (!regions_type)
@@ -398,20 +408,21 @@ namespace PAIGE
             const std::string featFile = stlplus::create_filespec(matches_dir_string, basename, ".feat");
             const std::string descFile = stlplus::create_filespec(matches_dir_string, basename, ".desc");
 
-
             //Load feature and describer from existing file
-            std::unique_ptr<openMVG::features::Regions> regions_ptr(regions_type->EmptyClone());
+            std::unique_ptr<openMVG::features::Regions> regions_ptr;
+            regions_ptr.reset(regions_type->EmptyClone());
+
             if (!regions_ptr->Load(featFile, descFile))
             {
                 std::cerr << "Invalid regions files for the view: " << sImageName << std::endl;
                 return EXIT_FAILURE;
             }
 
+
             std::cout<<"Current Image:"<<std::endl;
             std::cout<<iter->second->s_Img_path<<std::endl;
 
-            openMVG::features::SIFT_Regions * sift_region_unique_ptr;
-            sift_region_unique_ptr = dynamic_cast<openMVG::features::SIFT_Regions *>(regions_ptr.get());
+            openMVG::features::SIFT_Regions * sift_region_unique_ptr=dynamic_cast<openMVG::features::SIFT_Regions *>(regions_ptr.get());
 
             int_1_hists.clear();
             float_x_histograms.clear();

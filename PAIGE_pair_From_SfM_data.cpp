@@ -16,10 +16,8 @@
 #include <shark/Data/Csv.h>
 #include <shark/Algorithms/Trainers/RFTrainer.h>
 
-#include "PAIGE_Feature.h"
 #include "Histogram_Block.h"
 #include "PAIGE_Processor.h"
-#include "Histogram_Block_io.h"
 
 #include "openMVG/third_party/stlplus3/filesystemSimplified/file_system.hpp"
 
@@ -36,22 +34,30 @@ int main(int argc,char **argv)
     }
 
     std::string sfm_data_dir_string=argv[1];
+//    std::string sfm_data_dir_string="/home/SfM_output/test/matches/";
     std::string folder_current_full_string=stlplus::folder_current_full();
-    std::string folder_Pair_output_string=stlplus::create_filespec(folder_current_full_string,"PAIGE_pair");
+//    std::string folder_Pair_output_string=stlplus::create_filespec(folder_current_full_string,"PAIGE_pair");
+//
+//    if(!stlplus::folder_exists(folder_Pair_output_string))
+//    {
+//        //Create folder to save PAIGE pair
+//        if(!stlplus::folder_create(folder_Pair_output_string))
+//        {
+//            std::cout<<"Cannot Create folder PAIGE_pair"<<std::endl;
+//            return EXIT_FAILURE;
+//        }
+//    }
 
-    //Create folder to save PAIGE pair
-    if(!stlplus::folder_create(folder_Pair_output_string))
-    {
-        std::cout<<"Cannot Create folder PAIGE_pair"<<std::endl;
-        return EXIT_FAILURE;
-    }
 
     std::string model_name=argv[2];
+//    std::string model_name="/home/xjxj/data/PAIGE_dataset_total/PAIGE_test_data/PAIGE_unknown/Dante_unknown.model";
     if(!stlplus::file_exists(model_name))
     {
         std::cout<<"Cannot find input model"<<std::endl;
         return EXIT_FAILURE;
     }
+
+    std::cout<<"Loading model"<<std::endl;
 
     //Load model
     shark::RFClassifier model;
@@ -82,7 +88,7 @@ int main(int argc,char **argv)
     }
 
 
-    //Calculate PAIGE features and classify them
+//    Calculate PAIGE features and classify them
     std::string hist_fileL,hist_fileR;
     unsigned int label;
     for(auto hist_iter=hist_files_vec.begin();hist_iter!=hist_files_vec.end();++hist_iter)
